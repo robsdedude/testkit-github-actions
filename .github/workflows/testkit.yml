@@ -6,7 +6,7 @@ name: TestKit
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ master, custom-testkit-path ]
   pull_request:
     branches: [ master ]
 
@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: neo4j-drivers/testkit
-          path: testkit
+          path: custom/testkitfolder
           ref: ${{ steps.testkit_vars.outputs.testkit_version_ref }}
 
       - name: Install dependencies
@@ -62,11 +62,11 @@ jobs:
       - name: Run TestKit
         env:
           # to learn what these variables do, see https://github.com/neo4j-drivers/testkit
-          TEST_DRIVER_NAME: pyton-demo
+          TEST_DRIVER_NAME: python-demo
           TEST_DRIVER_REPO: ${{ github.workspace }}/driver
           TEST_RUN_ALL_TESTS: "true"
         run: |
-          cd testkit
+          cd custom/testkitfolder
           # everything from --run-only-selected is to reduce the number of tests run in this
           # demonstation setup. In a real setup, you most likely don't want this.
           python3 main.py --tests TESTKIT_TESTS STUB_TESTS \
